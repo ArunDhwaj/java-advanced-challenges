@@ -35,11 +35,11 @@ public class DatabaseConnectorFactory {
                 @Override
                 public boolean connect() {
                     // Not yet implemented
-                    totalNumberOfConnectors = 2;
-                    x2 = portNumber;
-                    String dbAddress = databaseAddress;
+//                    totalNumberOfConnectors = 2;
+//                    x2 = portNumber;
+//                    String dbAddress = databaseAddress;
 //                    int z = i;
-                    System.out.println("Database connector number: {{ctr++}}");
+                    System.out.println("Database connector number: " + ctr++);
                     return true;
                 }
 
