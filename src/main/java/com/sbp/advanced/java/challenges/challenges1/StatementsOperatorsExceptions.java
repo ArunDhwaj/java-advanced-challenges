@@ -2,6 +2,7 @@ package com.sbp.advanced.java.challenges.challenges1;
 
 import lombok.extern.slf4j.Slf4j;
 import com.sbp.advanced.java.challenges.challenges1.Person4.*;
+import org.springframework.web.util.pattern.PathPattern;
 
 //import static com.sbp.advanced.java.challenges.challenges1.Element.SODIUM;
 
@@ -14,7 +15,10 @@ public class StatementsOperatorsExceptions {
 //        challenge3();
 //        challenge4();
 //        challenge5();
-        challenge8();
+//        challenge8();
+//        challenge11();
+//        challenge12();
+        challenge13();
     }
 
     private void challenge1() {
@@ -136,9 +140,124 @@ public class StatementsOperatorsExceptions {
     }
 
     private void challenge8() {
+
+        /*
+        An anonymous class has access to all the enclosing class members. So totalNumberOfConnectors is accessible within
+        the connect() and disconnect() methods.
+        Any final local variables are also accessible so the databaseAddress can be accessed.
+
+        Any effectively final local variables are also accessible. An "effectively final" variable is one whose value
+        is never changed after it is initialized.
+
+        Since portNumber is an argument that is not modified within the method, it is effectively final and hence
+        accessible within those methods.
+
+        Mutable local variables cannot be accessed within the anonymous class, that is why the i variable cannot be
+         accessed inside the connect() and disconnect() methods.
+        */
+
         log.info("challenge8");
         DatabaseConnectorFactory databaseConnectorFactory = new DatabaseConnectorFactory();
         databaseConnectorFactory.createConnectors(8080, "localhost", 5);
+    }
+
+    private void challenge11() {
+//       What is the execution output of the following code?
+        String[][] names = {
+            {"Alice", "John", "Bob"},
+//            {"Charlie", "Bill", "Ben", "John"},
+                {"Charlie", "Bill", "Ben", "Sbp"},
+            {"John", "Brian", "John"}
+        };
+        String result = filter(names, "John");
+        System.out.println(result);
+    }
+    private String filter(String[][] names, String name) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int row = 0; row < names.length; ++row) {
+//            for (int col = 0; col < names[0].length; ++col) {
+            for (int col = 0; col < names[row].length; ++col) {
+                if (names[row][col].equals(name)) {
+                    continue;
+                }
+                builder.append(names[row][col] + " ");
+            }
+        }
+        return builder.toString();
+    }
+
+    private void challenge12() {
+        /*
+        Explanation: In the above code, the last return statement (return -2;) becomes an unreachable statement.
+        The java compiler throws a compilation error java: unreachable statement whenever there is unreachable code.
+         */
+
+        System.out.println(divide(10, 2));
+        // output >>
+        //FinallyBlock
+        //-1
+
+        System.out.println(divide(10, 0));
+        // output >>
+        //ArithmeticException
+        //FinallyBlock
+        //-1
+    }
+
+    private int divide(int num1, int num2) {
+
+//        int result = 0;
+        try {
+            return num1 / num2;
+//            result = num1/num2;
+
+        } catch (ArithmeticException ae) {
+            System.out.println("ArithmeticException");
+            return 0;
+//            result = 0;
+        }
+        finally {
+            System.out.println("FinallyBlock");
+            return -1;
+//            result = -1;
+        }
+
+//        return -2;
+    }
+
+    private void challenge13() {
+        /*
+        This is a valid code as per Java specification. And the return value specified in the finally block overrides
+        the one from try/catch. But it is not suggested to use a return value inside finally.
+        It should only be used to close files, streams, or other resources to avoid leaks.
+        */
+
+        System.out.println(divide2(10, 2));
+        // output >>
+        //FinallyBlock
+        //-1
+
+        System.out.println(divide2(10, 0));
+        // output >>
+        //ArithmeticException
+        //FinallyBlock
+        //-1
+    }
+
+    private int divide2(int num1, int num2) {
+        try {
+            System.out.println("try");
+            return num1 / num2;
+        }
+        catch (ArithmeticException ae) {
+            System.out.println("ArithmeticException");
+            return -10;
+        }
+        finally {
+//            return -11;
+            System.out.println("FinallyBlock");
+        }
     }
 
 }
